@@ -3,6 +3,8 @@ import numpy as np
 import pyvisa
 import pyvisa_py.usb
 import matplotlib.pyplot as plt
+import csv
+from pathlib import Path
 
 
 def read_channel(scope, channel):
@@ -26,6 +28,14 @@ def read_channel(scope, channel):
     return time_axis, voltage
 
 
+def export_csv(path, headers, columns):
+    """Write columns (equal-length arrays) to a CSV file."""
+    with open(path, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(headers)
+        writer.writerows(zip(*columns))
+
+
 def main():
     pyvisa_py.usb.libusb1 = libusb_package.get_libusb1_backend()
     rm = pyvisa.ResourceManager('@py')
@@ -39,6 +49,11 @@ def main():
 
     scope.close()
     rm.close()
+
+    # Single CSV named after this script: scope.csv
+    out_path = Path(__file__).with_suffix('.csv')
+    export_csv(out_path, ['time_s', 'ch1_v', 'ch2_v'], [t1, v1, v2])
+    print(f'Wrote {out_path.resolve()}')
 
     fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(10, 6))
 
