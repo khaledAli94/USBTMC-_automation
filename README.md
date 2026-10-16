@@ -3,7 +3,7 @@ lab test equipment automation scripts
 
 ```python
 def read_channel(scope, channel):
-    """Read waveform data from a channel without changing scope settings."""
+    #read waveform data from scope
     scope.write(f':WAV:SOUR CHAN{channel}')
     scope.write(':WAV:MODE NORM')
     scope.write(':WAV:FORM BYTE')
