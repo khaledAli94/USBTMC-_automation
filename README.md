@@ -1,7 +1,6 @@
 # USBTMC-_automation
 lab test equipment automation scripts 
 
-```md
 ```python
 def read_channel(scope, channel):
     """Read waveform data from a channel without changing scope settings."""
@@ -22,5 +21,4 @@ def read_channel(scope, channel):
     voltage = (raw - y_ref) * y_inc + y_orig
     time_axis = x_orig + np.arange(len(voltage)) * x_inc
     return time_axis, voltage
-```
 ```
